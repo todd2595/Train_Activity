@@ -40,21 +40,24 @@ $("#add-train-btn").on("click", function (event) {
 
 database.ref().on("child_added", function(childSnapshot) {
     // var frequency = $("#frequency-input").val().trim();
+    var frequency = childSnapshot.val().rate;
     var firstTimeConverted = moment(firstTime).subtract(1, "years");
     console.log(firstTimeConverted);
-    console.log(frequency);
+    
     // var currentTime = moment();
     var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
     console.log(diffTime);
     var tRemainder = diffTime % frequency;
+    console.log(frequency);
     var tMinutesTillTrain = frequency - tRemainder;
-    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-    var minsAway = moment().diff(moment(nextTrain), "minutes");
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes").format("LLL");
+    // var minsAway = moment().diff(moment(nextTrain), "minutes");
+    var minsAway = moment(nextTrain).diff(moment(),"minutes");
 
 
     var trainName = childSnapshot.val().name;
     var trainLoction = childSnapshot.val().location;
-    var frequency = childSnapshot.val().rate;
+    
     // var time = childSnapshot.val().minsAway;
     // var nextTrain = childSnapshot.val().next;
     var firstTime = childSnapshot.val().start;
